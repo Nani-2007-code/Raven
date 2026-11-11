@@ -4762,6 +4762,27 @@ class SettingsGetParams(_Strict):
     pass
 
 
+class PictureSearchStatus(_Strict):
+    """What the Settings page shows about the deck engine's picture search."""
+
+    vendor: str = Field(
+        ...,
+        description=(
+            "The picture vendor the deck engine would use now, or an empty string when none resolves. "
+            "Answered from effective credentials -- the config file, the vendor's environment variable, "
+            "and the deck lane's own .env -- so it agrees with what ppt_image_search would do."
+        ),
+    )
+    ready: bool
+    fallback: bool = Field(
+        ...,
+        description=(
+            "True when a keyed vendor other than the selected search vendor is what answered, so the "
+            "page can say deck generation will fall back to it."
+        ),
+    )
+
+
 class SettingsGetResult(_Strict):
     settings: dict[str, JsonValue] = Field(..., description="Raw config.json with secret-looking values masked.")
     config_path: str
@@ -4778,6 +4799,13 @@ class SettingsGetResult(_Strict):
         description=(
             "skill_hub_on, while the agent loop serving now was built without a Hub client: "
             "retrieval starts after a reload."
+        ),
+    )
+    picture_search: PictureSearchStatus = Field(
+        ...,
+        description=(
+            "The deck engine's picture search as the runtime would resolve it now: the vendor it would "
+            "use and whether a key resolves, environment and product-folder credentials included."
         ),
     )
 

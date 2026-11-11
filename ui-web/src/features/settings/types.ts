@@ -157,6 +157,10 @@ export interface SettingsSnapshot {
      the loader's migrations and boolean rules decide it, not the raw file.
      `awaitingReload` is on while the serving loop holds no Hub client. */
   skillHub: { on: boolean; awaitingReload: boolean }
+  /* The deck engine's picture search as the runtime would resolve it,
+     answered by settings.get: the vendor it would use, whether a key
+     resolves, and whether that vendor is a Serper fallback. */
+  pictureSearch: { vendor: string; ready: boolean; fallback: boolean }
   everos: EverosInfo | null
   everosCloud?: EverosCloudInfo | null
   providers: ProviderRow[]
